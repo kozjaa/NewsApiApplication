@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>News</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}" />
+    <script th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<!-- creating navbar with news categories and search news button-->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/news">News</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/news/pl/technology">pl/technology</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/categories/business">Business</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/categories/entertainment">Entertainent</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/categories/general">General</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/categories/health">Health</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/categories/science">Science</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/categories/sports">Sports</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/categories/technology">Technology</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" th:object="${search}" th:action="@{/news/search}" th:method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search"
+                   name="search" th:value="${search}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="container">
+
+    <!-- information about filtered result -->
+
+    <h4><span class="badge badge-secondary" th:text="${country}"></span></h4>
+    <h4><span class="badge badge-secondary" th:text="${category}"></span></h4>
+    <h4><span class="badge badge-secondary" th:text="${result}"></span></h4>
+<div class="row">
+
+    <!-- building a cards with informations about news -->
+
+    <div class="card" style="width: 18rem;" th:each="news : ${news}">
+        <img class="card-img-top" th:src="${news.urlToImage}" alt="No picture" width="200px" height="150px">
+        <div class="card-body">
+            <a th:href="${news.url}"><h5 class="card-title" th:text="${news.title}"></h5></a>
+            <p class="card-text" th:text="${news.description}"></p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Author: <span th:text="${news.author}"></span></li>
+            <li class="list-group-item">Date: <span th:text="${#strings.substring(news.publishedAt,0,10)}"></span></li>
+            <li class="list-group-item">Source: <span th:text="${news.source}"></span></li>
+        </ul>
+    </div>
+</div>
+</div>
+</body>
+</html>
