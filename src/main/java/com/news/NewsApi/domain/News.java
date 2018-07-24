@@ -94,8 +94,7 @@ public class News {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "ClassPojo [publishedAt = "+publishedAt+", author = "+author+", urlToImage = "+urlToImage+", title = "+title+", source = "+source+", description = "+description+", url = "+url+"]";
     }
 }

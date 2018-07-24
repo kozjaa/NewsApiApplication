@@ -2,8 +2,7 @@ package com.news.NewsApi.domain;
 
 public class Source {
 
-    public Source()
-    {
+    public Source() {
 
     }
 
