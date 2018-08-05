@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,35 +24,28 @@ public class NewsRepository {
 
     private String pageSize = "&pageSize=100";
 
+    public News[] getNews(RestTemplate restTemplate, String url) {
+        return restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY,
+                new ParameterizedTypeReference<Articles<News>>(){}).getBody().getArray();
+    }
+
     public News[] getNewsByCountryAndCategory(String country, String category) {
         String url = apiUrl + "country="+country+"&category=" + category + pageSize + apiKey;
-        ResponseEntity<Articles<News>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY,
-                new ParameterizedTypeReference<Articles<News>>(){});
-        News[] news = responseEntity.getBody().getArray();
-        return news;
+        return getNews(restTemplate, url);
     }
 
     public News[] getNewsByCategory(String category) {
         String url = apiUrl + "category=" + category + pageSize + apiKey;
-        ResponseEntity<Articles<News>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY,
-                new ParameterizedTypeReference<Articles<News>>(){});
-        News[] news = responseEntity.getBody().getArray();
-        return news;
+        return getNews(restTemplate, url);
     }
 
     public News[] getNewsBySearchRequest(String search) {
         String url = searchApiUrl + search + pageSize + apiKey;
-        ResponseEntity<Articles<News>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY,
-                new ParameterizedTypeReference<Articles<News>>(){});
-        News[] news = responseEntity.getBody().getArray();
-        return news;
+        return getNews(restTemplate, url);
     }
 
     public News[] home() {
         String url = apiUrl + "category=general&country=us" + pageSize + apiKey;
-        ResponseEntity<Articles<News>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY,
-                new ParameterizedTypeReference<Articles<News>>(){});
-        News[] news = responseEntity.getBody().getArray();
-        return news;
+        return getNews(restTemplate, url);
     }
 }
